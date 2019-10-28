@@ -4,7 +4,7 @@
 #include <pthread.h>
 #include <stdlib.h>
 #include <string.h>
-#include "my_spinlock.h"
+#include "my_spinlock_u.h"
 
 /*
  * define global value
@@ -58,15 +58,9 @@ int main(int argc, char *argv[]){
     pthread_t pthread[3];
 
     /*
-     * init my_spinlock_t
+     * init my_spinlock
      */
-    init_lock();
-
-    /*
-     * set flag
-     * flag use by doing lock or not
-     */
-    flag = atoi(argv[1]);
+    my_spinlock_init(atoi(argv[1]));
 
     // create
     pthread_create(&pthread[0], NULL, &func_thread, &y);

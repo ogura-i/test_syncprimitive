@@ -54,9 +54,10 @@ int flag;
 /*
  * initialize my_spinlock_t
  */
-void init_lock(){
+void my_spinlock_init(int x){
     lock = malloc(sizeof(my_spinlock_t));
     memset(lock, 0, sizeof(my_spinlock_t));
+    flag = x;
 }
 
 /*
