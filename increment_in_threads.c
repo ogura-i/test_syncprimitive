@@ -105,8 +105,8 @@ void increment(int x){
 
     for(i = 0; i < n; i++){
         my_spin_lock();
-        int next = a + 1;
         int now = a;
+        int next = a + 1;
         a = next;
         my_spin_unlock();
     }
@@ -135,7 +135,7 @@ void *func_thread(void *p){
 
 int main(int argc, char *argv[]){
     int i, result;
-    int x = 1, y = 2, z = 3;
+    int x = 0, y = 1, z = 2, w = 3;
 
     cpu_set_t cpu_set;
     pthread_t pthread[3];
@@ -152,9 +152,9 @@ int main(int argc, char *argv[]){
     flag = atoi(argv[1]);
 
     // create
-    pthread_create(&pthread[0], NULL, &func_thread, &x);
-    pthread_create(&pthread[1], NULL, &func_thread, &y);
-    pthread_create(&pthread[2], NULL, &func_thread, &z);
+    pthread_create(&pthread[0], NULL, &func_thread, &y);
+    pthread_create(&pthread[1], NULL, &func_thread, &z);
+    pthread_create(&pthread[2], NULL, &func_thread, &w);
 
     // init cpu_set
     CPU_ZERO(&cpu_set);
