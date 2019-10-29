@@ -19,14 +19,24 @@
 
 #define LOCK_PREFIX LOCK_PREFIX_HERE "\n\tlock; "
 
-#define __my_xadd(ptr, arg, lock)                                   \
-         ({                                                      \
-                 __typeof__ (*(ptr)) __ret = (arg);              \
-                 asm volatile (lock "xaddw %w0, %1\n"            \
-                               : "+q" (__ret), "+m" (*(ptr))     \
-                               : : "memory", "cc");              \
-                 __ret;                                          \
+#define __my_xadd(ptr, arg, lock)                                       \
+         ({                                                             \
+                 __typeof__ (*(ptr)) __ret = (arg);                     \
+                 switch (sizeof(*(ptr))) {                              \
+                 case 2:                                                \
+                        asm volatile (lock "xaddw %w0, %1\n"            \
+                                      : "+q" (__ret), "+m" (*(ptr))     \
+                                      : : "memory", "cc");              \
+                         break;                                         \
+                 case 4:                                                \
+                        asm volatile (lock "xaddl %0, %1\n"             \
+                                      : "+q" (__ret), "+m" (*(ptr))     \
+                                      : : "memory", "cc");              \
+                         break;                                         \
+                 }                                                      \
+                 __ret;                                                 \
          })
+
 
 #define my_xadd(ptr, inc)  __my_xadd((ptr), (inc), LOCK_PREFIX)
 
