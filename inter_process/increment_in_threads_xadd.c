@@ -9,8 +9,8 @@
 /*
  * define global value
  */
-unsigned int *a;
-int n = 100000;
+unsigned int *sum;
+int loop_upper = 100000;
 
 /*
  * function of increment
@@ -21,8 +21,8 @@ void increment(int x){
 
     printf("start thread%d\n", x);
 
-    for(i = 0; i < n; i++){
-        my_xadd(ACCESS_ONCE(a), t);
+    for(i = 0; i < loop_upper; i++){
+        my_xadd(ACCESS_ONCE(sum), t);
     }
 }
 
@@ -58,8 +58,8 @@ int main(){
     /*
      * init global value "a"
      */
-    a = malloc(sizeof(unsigned int));
-    memset(a, 0, sizeof(unsigned int));
+    sum = malloc(sizeof(unsigned int));
+    memset(sum, 0, sizeof(unsigned int));
 
     // create
     pthread_create(&pthread[0], NULL, &func_thread, &y);
@@ -84,6 +84,6 @@ int main(){
     pthread_join(pthread[1], NULL);
     pthread_join(pthread[2], NULL);
 
-    printf("a = %d\n", *a);
+    printf("sum = %d\n", *sum);
     return 0;
 }

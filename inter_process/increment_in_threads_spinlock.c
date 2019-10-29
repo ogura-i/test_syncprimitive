@@ -9,8 +9,8 @@
 /*
  * define global value
  */
-int a = 0;
-int n = 100000;
+int sum = 0;
+int loop_upper = 100000;
 
 /*
  * function of increment
@@ -20,11 +20,11 @@ void increment(int x){
 
     printf("start thread%d\n", x);
 
-    for(i = 0; i < n; i++){
+    for(i = 0; i < loop_upper; i++){
         my_spin_lock();
-        int now = a;
-        int next = a + 1;
-        a = next;
+        int now = sum;
+        int next = sum + 1;
+        sum = next;
         my_spin_unlock();
     }
 }
@@ -86,6 +86,6 @@ int main(int argc, char *argv[]){
     pthread_join(pthread[2], NULL);
 
     printf("head: %hhu, tail: %hhu\n", lock->head, lock->tail);
-    printf("a=%d\n", a);
+    printf("sum=%d\n", sum);
     return 0;
 }
