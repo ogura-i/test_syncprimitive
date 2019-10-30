@@ -19,7 +19,7 @@ CPUの提供する同期プリミティブ命令のxaddを用いたスピンロ�
     + プロセス間で排他制御を行うスピンロック関数やxadd命令の定義ファイル
   + increment_in_thread_spinlock.c
     + 4つのスレッド間で1つのグローバル変数をインクリメントする処理に対して，スピンロック関数を用いて排他制御可能か否かの確認プログラム
-  + increment_in_thread_spinlock.c
+  + increment_in_thread_xadd.c
     + 4つのスレッド間で1つのグローバル変数をxadd命令でインクリメントし，xadd命令がアトミックに行われているかの確認プログラム
 
 ## 現状
